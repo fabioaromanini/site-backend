@@ -1,0 +1,13 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "scripts": {
+    "deploy": "sls deploy --verbose"
+  },
+  "description": "Example demonstrates how to setup a simple HTTP GET endpoint",
+  "author": "fabioaromanini",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless": "^1.57.0"
+  }
+}

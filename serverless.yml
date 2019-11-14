@@ -1,0 +1,22 @@
+service: backend
+
+frameworkVersion: '>=1.1.0 <2.0.0'
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+package:
+  exclude:
+    - .git/**
+
+functions:
+  get:
+    handler: src/index.get
+    events:
+      - http:
+          path: get
+          method: get
+          cors: true
