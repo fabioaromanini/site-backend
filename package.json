@@ -8,6 +8,7 @@
   "author": "fabioaromanini",
   "license": "MIT",
   "devDependencies": {
+    "prettier": "^1.19.1",
     "serverless": "^1.57.0"
   }
 }
