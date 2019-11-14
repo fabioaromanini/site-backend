@@ -8,10 +8,21 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
   memorySize: 128
+  environment:
+    PROJECTS_DYNAMO_DB_TABLE: ${self:custom.projectsDynamoDbTable}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+      Resource:
+        Fn::GetAtt: [ProjectsDynamoDbTable, Arn]
 
 package:
   exclude:
     - .git/**
+
+custom:
+  projectsDynamoDbTable: ${self:provider.stage}-projects-table
 
 functions:
   get:
@@ -21,3 +32,20 @@ functions:
           path: get
           method: get
           cors: true
+
+resources:
+  Resources:
+    ProjectsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.projectsDynamoDbTable}
